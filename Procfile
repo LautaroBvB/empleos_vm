@@ -1,0 +1,1 @@
+web python manage.py migrate && gunicorn empleos_vm.wsgi
