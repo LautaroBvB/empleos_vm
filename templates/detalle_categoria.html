@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <!-- Contenedor de la categoría con el mismo ancho que la tarjeta de trabajo -->
+    <div class="position-relative text-center text-white bg-light rounded shadow-sm p-4 mx-auto w-100" style="max-width: 900px;">
+        {% if categoria.imagen %}
+            <div class="d-flex flex-column align-items-center">
+                <img src="{{ categoria.imagen.url }}" alt="{{ categoria.nombre }}" class="rounded-circle mb-3 shadow" style="width: 120px; height: 120px; object-fit: cover;">
+                <h1 class="fw-bold text-dark fs-3">{{ categoria.nombre }}</h1>
+                <p class="text-muted fs-5">{{ trabajos_categoria|length }} empleos</p>
+            </div>
+        {% endif %}
+    </div>
+
+    <!-- Lista de trabajos -->
+    <div class="mt-4 mx-auto w-100" style="max-width: 900px;">
+        {% for trabajo in trabajos_categoria %}
+            <div class="card p-3 shadow-sm mb-4">
+                <div class="d-flex align-items-center">
+                    {% if trabajo.imagen %}
+                        <img src="{{ trabajo.imagen.url }}" alt="{{ trabajo.titulo }}" class="me-3" style="width: 80px; height: 80px;">
+                    {% endif %}
+                    <div>
+                        <h5 class="mb-1">{{ trabajo.titulo }}</h5>
+                        <p class="text-muted mb-1">{{ trabajo.empresa }} | Publicado hace {{ trabajo.dias_publicado }} días</p>
+                    </div>
+                </div>
+                <div class="mt-2">
+                    {% for requisito in trabajo.requisitos.all %}
+                        <span class="badge bg-light text-dark">{{ requisito }}</span>
+                    {% endfor %}
+                    <span class="badge bg-light text-dark">{{ trabajo.tipo_jornada }}</span>
+                </div>
+                <p class="mt-3 truncado">{{ trabajo.descripcion }}</p>
+                <div class="text-end">
+                    <a href="{% url 'detalle_trabajo' trabajo.id %}" class="btn btn-primary">VER</a>
+                </div>
+            </div>
+        {% empty %}
+            <p class="text-muted text-center">No hay empleos disponibles en esta categoría.</p>
+        {% endfor %}
+    </div>
+
+    <div class="text-center">
+        <a href="{% url 'listar_trabajos' %}" class="btn btn-secondary mt-3">Volver a la lista</a>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,190 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <form method="POST" enctype="multipart/form-data" class="formulario">
+        {% csrf_token %}
+
+        <fieldset class="section bordered">
+            <legend class="centered">Información General</legend>
+            <div class="grid-container">
+                {{ form.titulo.label_tag }} {{ form.titulo }}
+                {{ form.empresa.label_tag }} {{ form.empresa }}
+                {{ form.categoria.label_tag }} {{ form.categoria }}
+                {{ form.cantidad.label_tag }} {{ form.cantidad }}
+            </div>
+        </fieldset>
+
+        <fieldset class="section bordered">
+            <legend class="centered">Detalles del Puesto</legend>
+            <div class="grid-container">
+                {{ form.localidad.label_tag }} {{ form.localidad }}
+                {{ form.tipo_jornada.label_tag }} {{ form.tipo_jornada }}
+                {{ form.modalidad.label_tag }} {{ form.modalidad }}
+                {{ form.genero.label_tag }} {{ form.genero }}
+                {{ form.descripcion.label_tag }} {{ form.descripcion }}
+            </div>
+        </fieldset>
+
+        <fieldset class="section bordered">
+            <legend class="centered">Información Adicional de la Empresa</legend>
+            <div class="grid-container">
+                {{ form.acerca_de.label_tag }} {{ form.acerca_de }}
+                {{ form.rubro.label_tag }} {{ form.rubro }}
+                {{ form.direccion.label_tag }} {{ form.direccion }}
+                <label for="id_celular">Celular</label>
+                <input type="text" id="id_celular" name="celular" pattern="\d*" inputmode="numeric" class="form-control">
+            </div>
+        </fieldset>
+
+        <fieldset class="section bordered">
+            <legend class="centered">Detalles Adicionales</legend>
+            <div class="grid-container">
+                {{ form.experiencia.label_tag }} {{ form.experiencia }}
+                {{ form.urgente.label_tag }} {{ form.urgente }}
+            </div>
+        </fieldset>
+
+        <fieldset class="section bordered" style="display: flex; flex-direction: column;">
+            <legend class="centered">Requisitos</legend>
+            <div class="grid-container full-width" id="caca">
+                <select id="id_requisitos" name="requisitos" multiple>
+                    <option disabled>Selecciona los requisitos</option>
+                    {% for option in form.requisitos.field.choices %}
+                        <option value="{{ option.0 }}">{{ option.1 }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </fieldset>
+
+        <div class="mb-3">
+            <input type="file" id="id_imagen" name="imagen" class="custom-file-input">
+            <label for="id_imagen" class="custom-file-label">Subir Imagen</label>
+            <p id="file-name" class="file-name"></p>
+        </div>
+
+        <button type="submit" class="submit-button">Enviar</button>
+    </form>
+</div>
+
+<link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#id_requisitos').select2({
+            placeholder: "Selecciona los requisitos",
+            allowClear: true,
+            width: '50%'
+        });
+    });
+    document.getElementById("id_imagen").addEventListener("change", function() {
+        let fileName = this.files.length ? this.files[0].name : "";
+        let fileNameDisplay = document.getElementById("file-name");
+        fileNameDisplay.textContent = fileName;
+        fileNameDisplay.style.display = fileName ? "block" : "none";
+    });
+</script>
+
+<style>
+#caca {
+  display: flex;
+  align-content: center;
+  justify-content: center;
+}
+
+.select2-container {
+  width: 80% !important;
+}
+    .mb-3 {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .custom-file-input {
+        display: none;
+    }
+
+    .custom-file-label {
+        display: inline-block;
+        padding: 10px 20px;
+        background: #ffffff;
+        color: #9777fa;
+        border: 2px solid #9777fa;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: all 0.3s;
+        text-align: center;
+    }
+
+    .custom-file-label:hover {
+        background: #9777fa;
+        color: #ffffff;
+    }
+
+    .file-name {
+        margin-top: 10px;
+        font-size: 14px;
+        color: #9777fa;
+        display: none;
+        text-align: center;
+    }
+
+    .container {
+        width: 80%;
+        margin: auto;
+        text-align: center;
+    }
+
+    .formulario {
+        padding: 20px;
+        border-radius: 10px;
+        text-align: left;
+    }
+
+    .section {
+        margin-bottom: 20px;
+    }
+
+    .bordered {
+        border: 2px solid #a483e4;
+        padding: 15px;
+        border-radius: 10px;
+    }
+
+    .centered {
+        text-align: center;
+    }
+
+    .grid-container {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+
+    .full-width {
+        grid-column: span 2;
+        text-align: center;
+    }
+
+    .submit-button {
+        display: block;
+        width: 200px;
+        margin: 20px auto;
+        padding: 10px 20px;
+        background: #6a5acd;
+        color: white;
+        font-size: 16px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background 0.3s;
+    }
+
+    .submit-button:hover {
+        background: #483d8b;
+    }
+</style>
+
+{% endblock %}

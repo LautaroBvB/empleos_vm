@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container mt-4">
+        <!-- Portada con fondo sutil -->
+        <div class="position-relative text-center text-white mx-auto w-100" style="max-width: 900px;">
+            {% if localidad.imagen %}
+                <img src="{{ localidad.imagen.url }}" alt="{{ localidad.nombre }}" class="w-100 rounded shadow-sm" style="max-height: 300px; object-fit: cover;">
+            {% endif %}
+            <!-- Fondo semitransparente con texto -->
+            <div class="position-absolute top-50 start-50 translate-middle text-center p-4" style="background-color: rgba(255, 255, 255, 0.6); border-radius: 10px;">
+                <h1 class="fw-bold text-dark">{{ localidad.nombre }}</h1>
+                <p class="text-muted fs-5">{{ trabajos_localidad|length }} empleos disponibles</p>
+            </div>
+        </div>
+
+        <!-- Lista de trabajos -->
+        <div class="mt-4 mx-auto w-100" style="max-width: 900px;">
+            {% for trabajo in trabajos_localidad %}
+                <div class="card p-3 shadow-sm mb-4">
+                    <div class="d-flex align-items-center">
+                        {% if trabajo.imagen %}
+                            <img src="{{ trabajo.imagen.url }}" alt="{{ trabajo.titulo }}" class="me-3" style="width: 80px; height: 80px;">
+                        {% endif %}
+                        <div>
+                            <h5 class="mb-1">{{ trabajo.titulo }}</h5>
+                            <p class="text-muted mb-1">{{ trabajo.empresa }} | Publicado hace {{ trabajo.dias_publicado }} días</p>
+                        </div>
+                    </div>
+                    <div class="mt-2">
+                        {% for requisito in trabajo.requisitos.all %}
+                            <span class="badge bg-light text-dark">{{ requisito }}</span>
+                        {% endfor %}
+                        <span class="badge bg-light text-dark">{{ trabajo.tipo_jornada }}</span>
+                    </div>
+                    <p class="mt-3 truncado">{{ trabajo.descripcion }}</p>
+                    <div class="text-end">
+                        <a href="{% url 'detalle_trabajo' trabajo.id %}" class="btn btn-primary">VER</a>
+                    </div>
+                </div>
+            {% empty %}
+                <p class="text-muted text-center">No hay empleos disponibles en esta localidad.</p>
+            {% endfor %}
+        </div>
+
+        <div class="text-center">
+            <a href="{% url 'listar_trabajos' %}" class="btn btn-secondary mt-3">Volver a la lista</a>
+        </div>
+    </div>
+{% endblock %}

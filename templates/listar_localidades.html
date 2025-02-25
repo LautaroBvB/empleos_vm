@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container mt-4">
+        <h2>Localidades con Empleos</h2>
+        <ul>
+            {% for localidad in localidades %}
+                <li>{{ localidad }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}

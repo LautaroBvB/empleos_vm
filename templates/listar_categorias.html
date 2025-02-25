@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container mt-4">
+        <h2>Categorías de Empleo</h2>
+        <ul>
+            {% for categoria in categorias %}
+                <li>{{ categoria }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}

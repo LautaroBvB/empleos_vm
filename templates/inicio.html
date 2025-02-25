@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Inicio{% endblock %}
+
+{% block content %}
+<section class="container my-5 py-4" style="background-color: #fff9f3; border-radius: 40px;">
+    <div class="row align-items-center">
+        <div class="col-md-6">
+            <h1 class="display-4">Unimos talentos con oportunidades laborales</h1>
+            <p class="fs-5" style="line-height: 1.8;">Encontrar trabajo nunca fue tan sencillo. Explora todas las opciones en un solo lugar, descubre empleos en Villa María y alrededores, y accede a múltiples sectores laborales.</p>
+        </div>
+        <div class="col-md-6 text-center">
+            <img src="{% static 'img/telefono.png' %}" alt="Empleo" class="img-fluid" style="height: 70%;">
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col d-flex justify-content-center">
+            <div class="p-3 rounded" style="background-color: #dcdcdc; width: 70%; display: flex; align-items: center;">
+                <input class="form-control me-2" type="search" placeholder="Buscar empleo..." aria-label="Buscar" style="width: 90%;">
+                <button class="btn btn-primary" type="submit">Buscar</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="container my-5 py-4">
+    <h2 class="display-4">Encontrá oportunidades laborales en Villa María y alrededores</h2>
+    <p class="fs-5 text-muted" style="line-height: 1.8;">Explorá nuestras distintas áreas de empleo y descubrí las mejores opciones para tu futuro.</p>
+
+    <div class="row">
+        {% for categoria in categorias %}
+            <div class="col-3 text-center mb-4">
+                <a href="{% url 'detalle_categoria' categoria.id %}" style="text-decoration: none; color: inherit;">
+                    <div class="card p-3 rounded d-flex justify-content-center align-items-center" style="border: 2px solid #808080; height: 250px; transition: border 0.3s, box-shadow 0.3s;">
+                        {% if categoria.imagen %}
+                            <img src="{{ categoria.imagen.url }}" class="img-fluid rounded" alt="{{ categoria.nombre }}" style="max-width: 50%; max-height: 50%; object-fit: contain;">
+                        {% endif %}
+                        <h5>{{ categoria.nombre }}</h5>
+                        <p class="text-muted">{{ categoria.trabajo_set.count }} empleos</p>
+                    </div>
+                </a>
+            </div>
+        {% endfor %}
+    </div>
+
+    <style media="screen">
+      .col-3.text-center.mb-4 img {
+        margin-bottom: 15px;
+      }
+
+      .col-3.text-center.mb-4 h5 {
+        margin-bottom: 10px;
+      }
+
+      .col-3.text-center.mb-4 a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      .col-3.text-center.mb-4 a:hover {
+        text-decoration: none;
+      }
+    </style>
+</section>
+
+{% endblock %}
