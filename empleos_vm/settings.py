@@ -18,6 +18,14 @@ DEBUG = False
 
 ALLOWED_HOSTS = ["*"]
 
+CSRF_TRUSTED_ORIGINS = [
+    'https://empleosvm-production.up.railway.app',
+    'http://empleosvm-production.up.railway.app',
+]
+
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
 
 # Application definition
 
