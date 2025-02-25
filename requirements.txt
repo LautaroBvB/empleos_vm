@@ -36,7 +36,6 @@ PyAutoGUI==0.9.54
 pycparser==2.21
 PyGetWindow==0.0.9
 PyMsgBox==1.0.9
-PyMySQL==1.1.1
 pyparsing==3.1.1
 pyperclip==1.8.2
 PyRect==0.2.0
