@@ -1,20 +1,84 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Categoria, Trabajo, Localidad
+from .models import Categoria, Trabajo, Localidad, Postulante
 from .forms import TrabajoForm, PostulanteForm
 from django.utils import timezone
 from datetime import date
 from django.http import JsonResponse
 from django.core.files.storage import FileSystemStorage
+from django.contrib.auth.hashers import check_password
+
+def preguntas_frecuentes(request):
+    return render(request, 'preguntas_frecuentes.html')
+
+def sobre_nosotros(request):
+    return render(request, 'sobre_nosotros.html')
+
+def contacto(request):
+    return render(request, 'contacto.html')
+
+
+def verificar_postulacion(request):
+    estado = None
+    comentario = None
+    error = None
+
+    if request.method == 'POST':
+        dni = request.POST.get('dni')
+        contraseña = request.POST.get('contraseña')
+
+        try:
+            postulante = get_object_or_404(Postulante, dni=dni)
+            if check_password(contraseña, postulante.contraseña):
+                estado = postulante.estado
+                comentario = postulante.comentario
+            else:
+                error = "Contraseña incorrecta."
+        except:
+            error = "DNI no encontrado."
+
+    return render(request, 'verificar_postulacion.html', {
+        'estado': estado,
+        'comentario': comentario,
+        'error': error
+    })
+
+def mi_cv_estado(request):
+    estado = None
+    comentario = None
+    error = None
+
+    if request.method == 'POST':
+        dni = request.POST.get('dni')
+        contraseña = request.POST.get('contraseña')
+
+        try:
+            postulante = get_object_or_404(Postulante, dni=dni)
+            if check_password(contraseña, postulante.contraseña):
+                estado = postulante.estado
+                comentario = postulante.comentario
+            else:
+                error = "Contraseña incorrecta."
+        except:
+            error = "DNI no encontrado."
+
+    return render(request, "mi_cv_estado.html", {
+        'estado': estado,
+        'comentario': comentario,
+        'error': error
+    })
 
 def crear_trabajo(request):
     if request.method == 'POST':
         form = TrabajoForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            return redirect('inicio')  # Redirige a la lista de trabajos, por ejemplo
+            return redirect('trabajo_exitoso')  # Redirige a la lista de trabajos, por ejemplo
     else:
         form = TrabajoForm()
     return render(request, 'crear_trabajo.html', {'form': form})
+
+def trabajo_exitoso(request):
+    return render(request, 'trabajo_exitoso.html')
 
 
 def formulario_exitoso(request):

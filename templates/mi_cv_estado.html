@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}Mi CV - Estado{% endblock %}
+
+{% block content %}
+<div class="card text-center">
+    <div class="card-body">
+        <h3 class="card-title">Consultar Estado de Postulación</h3>
+
+        {% if estado is not None %}
+            {% if estado == "aprobado" %}
+                <div class="alert alert-success" role="alert">
+                    <h4 class="fw-bold">🎉 ¡Felicitaciones! Tu curriculum fue aprobado exitosamente.</h4>
+                </div>
+                <a href="/" class="btn btn-primary mt-3">Volver al inicio</a>
+            {% else %}
+                <div class="alert alert-danger" role="alert">
+                    ❌ Tu CV no ha sido aprobado.
+                </div>
+                {% if comentario %}
+                    <p><strong>Comentario del administrador:</strong> {{ comentario }}</p>
+                {% endif %}
+            {% endif %}
+        {% else %}
+            <form method="post">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="dni" class="form-label">DNI</label>
+                    <input type="text" name="dni" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label for="contraseña" class="form-label">Contraseña</label>
+                    <input type="password" name="contraseña" class="form-control" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Consultar</button>
+            </form>
+            {% if error %}
+                <p class="text-danger mt-2">{{ error }}</p>
+            {% endif %}
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

@@ -114,11 +114,11 @@
         <div class="offcanvas-body">
             <ul>
                 <li><a href="{% url 'listar_trabajos' %}"><table><tr><td>Busca Empleo</td><td><img src="{% static 'icon/buscar-empleo.png' %}" alt="Icono 1"></td></tr></table></a></li>
-                <li><a href="#"><table><tr><td>Mi CV - Estado</td><td><img src="{% static 'icon/mi-cv.png' %}" alt="Icono 2"></td></tr></table></a></li>
-                <li><a href="#"><table><tr><td>Preguntas Frecuentes</td><td><img src="{% static 'icon/preguntas-frecuentes.png' %}" alt="Icono 3"></td></tr></table></a></li>
+                <li><a href="{% url 'mi_cv_estado' %}"><table><tr><td>Mi CV - Estado</td><td><img src="{% static 'icon/mi-cv.png' %}" alt="Icono 2"></td></tr></table></a></li>
+                <li><a href="{% url 'preguntas_frecuentes' %}"><table><tr><td>Preguntas Frecuentes</td><td><img src="{% static 'icon/preguntas-frecuentes.png' %}" alt="Icono 3"></td></tr></table></a></li>
                 <li><a href="#"><table><tr><td>Soy Empresa</td><td><img src="{% static 'icon/soy-empresa.png' %}" alt="Icono 4"></td></tr></table></a></li>
-                <li><a href="#"><table><tr><td>Sobre Nosotros</td><td><img src="{% static 'icon/sobre-nosotros.png' %}" alt="Icono 5"></td></tr></table></a></li>
-                <li><a href="#"><table><tr><td>Contacto</td><td><img src="{% static 'icon/contacto.png' %}" alt="Icono 6"></td></tr></table></a></li>
+                <li><a href="{% url 'sobre_nosotros' %}"><table><tr><td>Sobre Nosotros</td><td><img src="{% static 'icon/sobre-nosotros.png' %}" alt="Icono 5"></td></tr></table></a></li>
+                <li><a href="{% url 'contacto' %}"><table><tr><td>Contacto</td><td><img src="{% static 'icon/contacto.png' %}" alt="Icono 6"></td></tr></table></a></li>
             </ul>
         </div>
     </div>

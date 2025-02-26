@@ -14,4 +14,9 @@ urlpatterns = [
     path('subir_cv', views.subir_cv, name='subir_cv'),
     path('formulario_exitoso/', views.formulario_exitoso, name='formulario_exitoso'),
     path('crear_trabajo/', views.crear_trabajo, name='crear_trabajo'),
+    path("mi-cv-estado/", views.mi_cv_estado, name="mi_cv_estado"),
+    path('trabajo-exitoso/', views.trabajo_exitoso, name='trabajo_exitoso'),
+    path('preguntas-frecuentes/', views.preguntas_frecuentes, name='preguntas_frecuentes'),
+    path('sobre-nosotros/', views.sobre_nosotros, name='sobre_nosotros'),
+    path('contacto/', views.contacto, name='contacto'),
 ]

@@ -19,6 +19,11 @@ class Rubro(models.Model):
         return self.nombre
     
 class Postulante(models.Model):
+    ESTADOS = [
+        ('aprobado', 'Aprobado'),
+        ('no_aprobado', 'No aprobado'),
+    ]
+
     nombre = models.CharField(max_length=100)
     apellido = models.CharField(max_length=100)
     dni = models.CharField(
@@ -34,21 +39,22 @@ class Postulante(models.Model):
         validators=[RegexValidator(r'^\d+$', 'Solo números permitidos')]
     )
     email = models.EmailField(unique=True)
-    contraseña = models.CharField(max_length=128)  # Se almacenará encriptada
+    contraseña = models.CharField(max_length=128)
     archivo = models.FileField(upload_to=obtener_nombre_archivo, validators=[FileExtensionValidator(['pdf'])])
-    
-    # Nuevos campos
     dia = models.PositiveIntegerField(validators=[MinValueValidator(1), MaxValueValidator(31)])
     mes = models.PositiveIntegerField(validators=[MinValueValidator(1), MaxValueValidator(12)])
     año = models.PositiveIntegerField(validators=[MinValueValidator(1900)])
 
+    estado = models.CharField(max_length=15, choices=ESTADOS, default='no_aprobado')  # Nuevo campo
+    comentario = models.TextField(blank=True, null=True)
+    
     def save(self, *args, **kwargs):
-        if not self.pk:  # Solo encripta si es un nuevo registro
+        if not self.pk:  
             self.contraseña = make_password(self.contraseña)
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return f"{self.nombre} {self.apellido} - {self.dni}"
+        return f"{self.nombre} {self.apellido} - {self.dni} ({self.estado})"
 
 
 

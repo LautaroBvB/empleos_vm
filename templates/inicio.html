@@ -4,7 +4,49 @@
 {% block title %}Inicio{% endblock %}
 
 {% block content %}
-<section class="container my-5 py-4" style="background-color: #fff9f3; border-radius: 40px;">
+
+<style media="screen">
+  body {
+    background-color: #fdd237;
+    color: #1a1a40;
+  }
+  #buscador {
+    background: #1a1a40;
+    position: relative;
+    padding: 10px;
+    border-radius: 10px;
+  }
+  #buscado {
+    position: absolute;
+  }
+  .btn-primary {
+    background-color: #1a1a40;
+    border-color: #1a1a40;
+  }
+  .btn-primary:hover {
+    background-color: #141432;
+    border-color: #141432;
+  }
+  .container section {
+    background-color: #fffaf0;
+    border-radius: 40px;
+    padding: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  }
+  .card {
+    border: 2px solid #1a1a40;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  .card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+  }
+  .text-muted {
+    color: #5a5a5a !important;
+  }
+</style>
+
+<section class="container my-5 py-4">
     <div class="row align-items-center">
         <div class="col-md-6">
             <h1 class="display-4">Unimos talentos con oportunidades laborales</h1>
@@ -15,11 +57,21 @@
         </div>
     </div>
 
-    <div class="row mt-4">
-        <div class="col d-flex justify-content-center">
-            <div class="p-3 rounded" style="background-color: #dcdcdc; width: 70%; display: flex; align-items: center;">
-                <input class="form-control me-2" type="search" placeholder="Buscar empleo..." aria-label="Buscar" style="width: 90%;">
-                <button class="btn btn-primary" type="submit">Buscar</button>
+    <div class="row mt-4 d-flex justify-content-center">
+        <div class="p-3 rounded" style="background-color: #fffaf0; width: 70%; border-radius: 20px; display: flex; align-items: center; gap: 10px;">
+            <input class="form-control" type="search" placeholder="Buscar empleo..." aria-label="Buscar" style="border-radius: 20px; flex: 1;">
+            <button class="btn btn-primary" type="submit" style="border-radius: 20px;">Buscar</button>
+        </div>
+        <div class="row mt-2 d-flex justify-content-center">
+            <div class="p-3 rounded" style="background-color: #333; width: 70%; border-radius: 20px;">
+                <div class="container text-center">
+                    <div class="row">
+                        <div class="col"><a href="#" class="text-light text-decoration-none">Grupos de Whatsapp</a></div>
+                        <div class="col"><a href="#" class="text-light text-decoration-none">Cómo encontrar empleos</a></div>
+                        <div class="col"><a href="#" class="text-light text-decoration-none">Cómo publicar avisos</a></div>
+                        <div class="col"><a href="#" class="text-light text-decoration-none">Cómo subir tu CV</a></div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -33,7 +85,7 @@
         {% for categoria in categorias %}
             <div class="col-3 text-center mb-4">
                 <a href="{% url 'detalle_categoria' categoria.id %}" style="text-decoration: none; color: inherit;">
-                    <div class="card p-3 rounded d-flex justify-content-center align-items-center" style="border: 2px solid #808080; height: 250px; transition: border 0.3s, box-shadow 0.3s;">
+                    <div class="card p-3 rounded d-flex justify-content-center align-items-center" style="height: 250px;">
                         {% if categoria.imagen %}
                             <img src="{{ categoria.imagen.url }}" class="img-fluid rounded" alt="{{ categoria.nombre }}" style="max-width: 50%; max-height: 50%; object-fit: contain;">
                         {% endif %}
@@ -44,25 +96,6 @@
             </div>
         {% endfor %}
     </div>
-
-    <style media="screen">
-      .col-3.text-center.mb-4 img {
-        margin-bottom: 15px;
-      }
-
-      .col-3.text-center.mb-4 h5 {
-        margin-bottom: 10px;
-      }
-
-      .col-3.text-center.mb-4 a {
-        color: inherit;
-        text-decoration: none;
-      }
-
-      .col-3.text-center.mb-4 a:hover {
-        text-decoration: none;
-      }
-    </style>
 </section>
 
 {% endblock %}

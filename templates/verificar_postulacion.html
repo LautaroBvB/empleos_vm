@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block title %}Verificar Postulación{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Verificar Estado de Postulación</h2>
+    <form method="post">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="dni" class="form-label">DNI</label>
+            <input type="text" id="dni" name="dni" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label for="contraseña" class="form-label">Contraseña</label>
+            <input type="password" id="contraseña" name="contraseña" class="form-control" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Verificar</button>
+    </form>
+
+    {% if estado is not None %}
+        <div class="mt-4">
+            <h4>Estado de Postulación:</h4>
+            <p><strong>{{ estado }}</strong></p>
+            {% if comentario %}
+                <h5>Comentario del Administrador:</h5>
+                <p>{{ comentario }}</p>
+            {% endif %}
+        </div>
+    {% elif error %}
+        <div class="alert alert-danger mt-3">{{ error }}</div>
+    {% endif %}
+</div>
+{% endblock %}
