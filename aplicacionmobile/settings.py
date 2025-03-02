@@ -14,7 +14,7 @@ SECRET_KEY = 'django-insecure-l90n)q5s()nu9-85=$$l6h$xofqzk!(#92uxo)hj30zj_*-+@f
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["192.168.0.14", '127.0.0.1', 'localhost']
+ALLOWED_HOSTS = ["192.168.0.14", '127.0.0.1', 'localhost', 'empleosvm-production.up.railway.app']
 
 APPEND_SLASH = True
 
