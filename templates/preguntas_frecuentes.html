@@ -1,0 +1,50 @@
+<!-- preguntas_frecuentes.html -->
+{% extends 'base.html' %}
+
+{% block title %}Preguntas Frecuentes{% endblock %}
+
+{% block content %}
+<div class="container text-center">
+    <h2 class="my-4">Preguntas Frecuentes</h2>
+
+    <div class="list-group mb-4">
+        <!-- Sección Grupos de Whatsapp -->
+        <div class="list-group-item mb-3">
+            <h5>Grupos de Whatsapp</h5>
+            <p>Para unirte a los grupos de Whatsapp, simplemente haz clic en el enlace de invitación que aparece en nuestra página de inicio. Los grupos son un excelente lugar para recibir actualizaciones rápidas y conectarte con otras personas.</p>
+        </div>
+
+        <!-- Sección Cómo encontrar empleos -->
+        <div class="list-group-item mb-3">
+            <h5>Cómo encontrar empleos</h5>
+            <p>Para encontrar empleos, accede a la sección "Busca Empleo" donde podrás explorar ofertas laborales por categoría, ubicación y más. Filtra según tus preferencias y encuentra la oportunidad que mejor se adapte a ti.</p>
+        </div>
+
+        <!-- Sección Cómo publicar avisos -->
+        <div class="list-group-item mb-3">
+            <h5>Cómo publicar avisos</h5>
+            <p>Para publicar un aviso de trabajo, dirígete a la sección "Publica Gratis", completa la información necesaria sobre el puesto y la empresa, y haz clic en "Publicar". ¡Así de fácil!</p>
+        </div>
+
+        <!-- Sección Cómo subir tu CV -->
+        <div class="list-group-item mb-3">
+            <h5>Cómo subir tu CV</h5>
+            <p>Subir tu CV es sencillo: ve a "Subí tu CV", selecciona el archivo de tu CV en tu computadora y haz clic en "Subir". Asegúrate de que tu CV esté actualizado y sea claro para mejorar tus oportunidades laborales.</p>
+        </div>
+    </div>
+
+    <!-- Botón para redirigir al inicio -->
+    <a href="{% url 'inicio' %}" class="btn custom-btn" style="margin-bottom: 3vh">Volver al Inicio</a>
+</div>
+<style media="screen">
+  .custom-btn {
+      background-color: #f1d301;
+      color: black;
+      border: 1px solid black;
+  }
+
+  .custom-btn:hover {
+      background-color: #e0c200;
+  }
+</style>
+{% endblock %}

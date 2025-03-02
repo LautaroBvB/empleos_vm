@@ -1,0 +1,28 @@
+<!-- sobre_nosotros.html -->
+{% extends 'base.html' %}
+
+{% block title %}Sobre Nosotros{% endblock %}
+
+{% block content %}
+<div class="container text-center">
+    <h2 class="my-4">Sobre Nosotros</h2>
+    <p>Bienvenidos a <strong>TRABAJO VILLA MARÍA | Portal de Empleos</strong>, la plataforma líder para conectar empleadores con trabajadores en la ciudad de Villa María. Nos dedicamos a ofrecer una experiencia de búsqueda de empleo única, facilitando la conexión entre los profesionales y las empresas locales. Nuestra misión es contribuir al crecimiento económico de la región mediante la creación de oportunidades laborales accesibles para todos.</p>
+
+    <p>Contamos con una amplia variedad de ofertas laborales y herramientas diseñadas para simplificar la búsqueda de empleo, publicación de avisos y el envío de currículums. En <strong>TRABAJO VILLA MARÍA</strong>, estamos comprometidos con el éxito de cada uno de nuestros usuarios, brindando el apoyo necesario para alcanzar sus metas profesionales.</p>
+
+    <p>¡Únete hoy a nuestra comunidad y comienza a construir tu futuro laboral!</p>
+
+    <a href="{% url 'inicio' %}" class="btn custom-btn" style="margin-bottom: 3vh">Volver al Inicio</a>
+</div>
+<style media="screen">
+  .custom-btn {
+      background-color: #f1d301;
+      color: black;
+      border: 1px solid black;
+  }
+
+  .custom-btn:hover {
+      background-color: #e0c200;
+  }
+</style>
+{% endblock %}

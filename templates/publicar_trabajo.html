@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Publicar trabajo{% endblock %}
+{% block extra_head %}
+    <link rel="stylesheet" href="{% static 'css/publicar.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div class="container-fluid py-4">
+        <div class="row justify-content-center">
+            <div class="col-md-6 col-sm-12">
+                <h2 class="mb-4 centered">Publicar un nuevo trabajo</h2>
+                <form method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
+                    {% csrf_token %}
+                    <fieldset class="section bordered">
+                        <legend class="centered">Información General</legend>
+                        <div class="grid-container">
+                            <label for="id_titulo">Título</label> {{ form.titulo }}
+                            <label for="id_empresa">Empresa</label> {{ form.empresa }}
+                            <label for="id_categoria">Categoría</label> {{ form.categoria }}
+                            <label for="id_cantidad">Cantidad</label> {{ form.cantidad }}
+                        </div>
+                    </fieldset>
+
+                    <fieldset class="section bordered">
+                        <legend class="centered">Detalles del Puesto</legend>
+                        <div class="grid-container">
+                            <label for="id_localidad">Localidad</label> {{ form.localidad }}
+                            <label for="id_tipo_jornada">Tipo de Jornada</label> {{ form.tipo_jornada }}
+                            <label for="id_modalidad">Modalidad</label> {{ form.modalidad }}
+                            <label for="id_genero">Género</label> {{ form.genero }}
+                            <label for="id_descripcion">Descripción</label> {{ form.descripcion }}
+                        </div>
+                    </fieldset>
+
+                    <fieldset class="section bordered">
+                        <legend class="centered">Información Adicional de la Empresa</legend>
+                        <div class="grid-container">
+                            <label for="id_acerca_de">Acerca de</label> {{ form.acerca_de }}
+                            <label for="id_rubro">Rubro</label> {{ form.rubro }}
+                            <label for="id_direccion">Dirección</label> {{ form.direccion }}
+                            <label for="id_celular">Celular</label> {{ form.celular }}
+                        </div>
+                    </fieldset>
+
+                    <fieldset class="section bordered">
+                        <legend class="centered">Detalles Adicionales</legend>
+                        <div class="grid-container">
+                            <label for="id_experiencia">Experiencia</label> {{ form.experiencia }}
+                            <label for="id_urgente">Urgente</label> {{ form.urgente }}
+                        </div>
+                    </fieldset>
+
+                    <fieldset class="section bordered">
+                        <legend class="centered">Requisitos</legend>
+                        <div class="grid-container full-width" id="selector">
+                            {{ form.requisitos }}
+                        </div>
+                    </fieldset>
+
+                    <button type="submit" class="submit-button">Enviar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

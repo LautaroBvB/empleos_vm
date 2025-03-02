@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+
+{% block title %}Verificar Postulación{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <form method="post">
+        {% csrf_token %}
+        <fieldset class="section bordered">
+            <legend class="text-center">Verificar Estado de Postulación</legend>
+
+            <div class="mb-3">
+                <label for="dni" class="form-label">DNI</label>
+                <input type="text" id="dni" name="dni" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label for="contraseña" class="form-label">Contraseña</label>
+                <input type="password" id="contraseña" name="contraseña" class="form-control" required>
+            </div>
+        </fieldset>
+        <div class="d-flex justify-content-center">
+            <button type="submit" class="btn custom-btn">Verificar</button>
+        </div>
+    </form>
+
+    {% if estado == "aprobado" %}
+        <div class="alert alert-success mt-4">
+            <h4>¡Postulación Aprobada!</h4>
+            <p>Tu curriculum ha sido aprobado. Nos pondremos en contacto contigo pronto.</p>
+            {% if comentario %}
+                <h5>Comentario del Administrador:</h5>
+                <p>{{ comentario }}</p>
+            {% endif %}
+        </div>
+    {% elif estado == "no_aprobado" %}
+        <div class="alert alert-danger mt-4">
+            <h4>Postulación No Aprobada</h4>
+            <p>Tu curriculum no ha sido aprobado.</p>
+            {% if comentario %}
+                <h5>Motivo:</h5>
+                <p>{{ comentario }}</p>
+            {% else %}
+                <p>Por favor, revisa y vuelve a intentarlo.</p>
+            {% endif %}
+        </div>
+    {% elif error %}
+        <div class="alert alert-warning mt-3">{{ error }}</div>
+    {% endif %}
+</div>
+
+<style media="screen">
+    .section {
+        margin-bottom: 20px;
+    }
+
+    .bordered {
+        border: 2px solid #f0d400;
+        padding: 15px;
+        border-radius: 10px;
+    }
+
+    .custom-btn {
+        background-color: #f1d301;
+        color: black;
+        border: 1px solid black;
+    }
+
+    .custom-btn:hover {
+        background-color: #e0c200;
+    }
+</style>
+
+{% endblock %}

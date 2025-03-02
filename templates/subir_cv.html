@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Subir CV{% endblock %}
+{% block extra_head %}
+    <link rel="stylesheet" href="{% static 'css\subir_cv.css' %}">
+    <link rel="stylesheet" href="{% static 'css\publicar.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div class="container-fluid py-4">
+        <div class="row justify-content-center">
+            <div class="col-md-6 col-sm-12">
+                <h2 class="mb-4 centered">Subir tu CV</h2>
+
+                <form method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
+                    {% csrf_token %}
+                    <fieldset class="section bordered">
+                        <legend class="centered">Información Personal</legend>
+                        <div class="grid-container">
+                            <label for="id_nombre">Nombre</label> {{ form.nombre }}
+                            <label for="id_apellido">Apellido</label> {{ form.apellido }}
+                            <label for="id_dni">DNI</label> {{ form.dni }}
+                            <label for="id_caracteristica">Característica</label> {{ form.caracteristica }}
+                            <label for="id_numero">Número</label> {{ form.numero }}
+                            <label for="id_email">Correo electrónico</label> {{ form.email }}
+                            <div id="email-error" class="error-message" style="display: none;">Correo electrónico inválido.</div>
+                        </div>
+                    </fieldset>
+
+                    <fieldset class="section bordered">
+                        <legend class="centered">Datos de Contacto</legend>
+                        <div class="grid-container">
+                            <label for="id_contraseña">Contraseña</label> {{ form.contraseña }}
+                            <label for="id_confirmar_contraseña">Confirmar contraseña</label>
+                            {{ form.confirmar_contraseña }}
+                            <div id="confirmar-error" class="error-message" style="display: none;">Las contraseñas no coinciden.</div>
+                        </div>
+                    </fieldset>
+
+                    <fieldset class="section bordered">
+                        <legend class="centered">Fecha de Nacimiento</legend>
+                        <div class="grid-container">
+                            <label for="id_dia">Día</label> {{ form.dia }}
+                            <label for="id_mes">Mes</label> {{ form.mes }}
+                            <label for="id_año">Año</label> {{ form.año }}
+                            <div id="fecha-error" class="error-message" style="display: none;">Fecha inválida.</div>
+                        </div>
+                    </fieldset>
+
+                    <fieldset class="section bordered">
+                        <legend class="centered">Subir CV</legend>
+                        <div class="grid-container">
+                            <label for="id_archivo">Archivo (PDF)</label> {{ form.archivo }}
+                        </div>
+                    </fieldset>
+
+                    <div id="error-container" class="error-message" style="display: none;"></div>
+                    <button type="submit" class="submit-button">Enviar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script src="{% static 'js\validaciones_subir_cv.js' %}"></script>
+{% endblock %}

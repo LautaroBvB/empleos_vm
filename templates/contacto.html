@@ -1,0 +1,23 @@
+<!-- contacto.html -->
+{% extends 'base.html' %}
+
+{% block title %}Contacto{% endblock %}
+
+{% block content %}
+<div class="container text-center">
+    <h2 class="my-4">Contacto</h2>
+    <p>En esta sección se mostrará información de contacto. Esta sección está en construcción.</p>
+    <a href="{% url 'inicio' %}" class="btn custom-btn mt-3" style="margin-bottom: 3vh">Volver al Inicio</a>
+</div>
+<style media="screen">
+  .custom-btn {
+      background-color: #f1d301;
+      color: black;
+      border: 1px solid black;
+  }
+
+  .custom-btn:hover {
+      background-color: #e0c200;
+  }
+</style>
+{% endblock %}

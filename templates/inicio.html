@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<section style="background: #ffe8d9; padding-bottom: 1vh;">
+    <img src="{% static 'img/telefono.png' %}" alt="Instagram Busco-Empleo-Vm" class="banner-instagram">
+    <h1 class="text-center fw-bold mt-3">Unimos talentos con oportunidades laborales</h1>
+    <p class="text-center text-dark px-3">Encontrar trabajo nunca fue tan sencillo. Explora todas las opciones en un solo lugar, descubre empleos en Villa María y alrededores, y accede a múltiples sectores laborales.</p>
+    <div class="p-3 w-75 mx-auto text-center input-container">
+        <input class="form-control mb-2 rounded-pill" type="search" placeholder="Buscar empleos" aria-label="Buscar">
+        <button class="btn w-100 rounded-pill" style="background-color: #f1d301; color: black;">Buscar</button>
+    </div>
+</section>
+
+<section>
+    <h2 class="text-center fw-bold mt-3">Encontrá oportunidades laborales en Villa María y alrededores</h2>
+    <p class="fs-5 text-muted text-center">Explorá nuestras distintas áreas de empleo y descubrí las mejores opciones para tu futuro.</p>
+    <div class="row justify-content-center">
+        {% for categoria in categorias %}
+        <div class="col-12 col-sm-6 col-md-3 text-center mb-4">
+            <a href="{% url 'listar_trabajos_por_categoria' categoria.id %}" class="text-decoration-none text-dark">
+                <div class="card p-3 rounded d-flex justify-content-center align-items-center" style="height: 300px; max-width: 250px; margin: auto;">
+                    {% if categoria.imagen %}
+                    <img src="{{ categoria.imagen.url }}" class="img-fluid rounded" style="width: 50%;">
+                    {% endif %}
+                    <h5 class="mt-3">{{ categoria.nombre }}</h5>
+                    <p class="text-muted">{{ categoria.trabajo_set.count }} empleos</p>
+                </div>
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}
