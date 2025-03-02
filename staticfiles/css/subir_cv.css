@@ -1,0 +1,43 @@
+body {
+}
+
+.error-message {
+  color: white;
+  background-color: #f44336;
+  border: 1px solid #d32f2f;
+  padding: 10px;
+  font-size: 14px;
+  margin-top: 5px;
+  border-radius: 5px;
+  display: none;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+#error-container {
+  margin-bottom: 20px;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="email"],
+input[type="password"],
+input[type="file"],
+textarea {
+  width: 100%;
+  padding: 8px;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.submit-button {
+  width: 100%;
+}

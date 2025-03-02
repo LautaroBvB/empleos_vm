@@ -1,0 +1,85 @@
+body {
+    font-family: 'Poppins', sans-serif;
+    
+}
+
+.offcanvas {
+    width: 220px !important;
+    margin-top: 8vh;
+    background: floralwhite;
+}
+
+.offcanvas-body ul {
+    padding-left: 0;
+}
+
+.offcanvas-body ul li {
+    list-style: none;
+    font-size: 16px;
+}
+
+.offcanvas-body ul li a {
+    display: block;
+    text-decoration: none;
+    color: black;
+    padding: 8px 10px;
+}
+
+.offcanvas-body ul li a table {
+    width: 100%;
+    table-layout: fixed;
+}
+
+.offcanvas-body ul li a td {
+    padding: 8px 0;
+    vertical-align: middle;
+}
+
+.offcanvas-body ul li a td:first-child {
+    width: 80%;
+}
+
+.offcanvas-body ul li a td:last-child {
+    width: 20%;
+    text-align: right;
+}
+
+.offcanvas-body ul li a img {
+    height: 28px;
+    width: 28px;
+}
+
+header {
+    height: 8vh;
+    background: floralwhite;
+}
+
+nav {
+    background: #f0d400;
+}
+
+header img {
+    width: 30%;
+}
+
+.menu-empleo {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 100%;
+}
+
+.banner-instagram {
+    width: 100%;
+}
+
+.input-container {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.9);
+    background: white;
+    border-radius: 20px;
+    margin-top: 1vh;
+    width: 75%;
+    margin: 0 auto;
+    text-align: center;
+    margin: 2vh 0;
+}

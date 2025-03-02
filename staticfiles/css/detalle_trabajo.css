@@ -1,0 +1,88 @@
+/* Botón de postulación con animación */
+.postular-btn {
+    position: relative;
+    overflow: hidden;
+    transition: box-shadow 0.3s ease-in-out;
+}
+.postular-btn::after {
+    content: "";
+    position: absolute;
+    width: 300%;
+    height: 300%;
+    background: rgba(255, 255, 255, 0.3);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    border-radius: 50%;
+    transition: transform 0.5s ease-in-out;
+}
+.postular-btn:hover {
+    box-shadow: 0px 4px 15px rgba(0, 0, 255, 0.4);
+}
+.postular-btn:active::after {
+    transform: translate(-50%, -50%) scale(1);
+}
+
+/* Redes Sociales */
+.social-icon {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+.social-icon:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Búsquedas relacionadas */
+.related-box {
+    display: block;
+    text-decoration: none;
+    background: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+.related-box:hover {
+    transform: translateY(-3px);
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+    background: #e9ecef;
+}
+
+.social-icon {
+    text-decoration: none !important;
+}
+
+.related-box {
+    text-align: center;
+}
+
+.truncate-text {
+    display: inline-block;
+    max-width: 700px; /* Ajusta el tamaño según necesites */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+html, body {
+    width: 100%;
+    overflow-x: hidden;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 100% !important;
+    width: 100%;
+    padding: 0 15px;
+}
+
+.card {
+    max-width: 900px;
+    margin: 0 auto;
+}
