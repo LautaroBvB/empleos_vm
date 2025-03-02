@@ -1,1 +1,1 @@
-web: gunicorn school.wsgi
+web: python manage.py migrate && gunicorn empleos_vm.wsgi:application --bind 0.0.0.0:$PORT
