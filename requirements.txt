@@ -33,7 +33,7 @@ pefile==2023.2.7
 pillow==11.1.0
 pipdeptree==2.25.0
 platformdirs==4.3.6
-psycopg2==2.9.10
+psycopg2-binary==2.9.10
 PyAutoGUI==0.9.54
 pycparser==2.21
 PyGetWindow==0.0.9
