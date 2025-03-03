@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import Categoria, Postulante, Trabajo, Localidad
+from .models import Trabajo, Localidad, Categoria, JornadaLaboral, Modalidad, Genero, Postulante
 from django.http import JsonResponse
 from .forms import TrabajoForm, PostulanteForm
 from django.shortcuts import redirect, get_object_or_404
@@ -119,12 +119,39 @@ def listar_trabajos_por_localidad(request, localidad_id):
 
 
 def listar_trabajos(request):
-    trabajos = Trabajo.objects.all().order_by('-fecha')  # Ordenar por fecha ascendente
+    trabajos = Trabajo.objects.all().order_by('-fecha')
     ahora = timezone.now().date()
 
+    # Aplicar filtros si existen
+    localidades_seleccionadas = request.GET.getlist('localidad')
+    categorias_seleccionadas = request.GET.getlist('categoria')
+    jornadas_seleccionadas = request.GET.getlist('jornada')
+    modalidades_seleccionadas = request.GET.getlist('modalidad')
+    generos_seleccionados = request.GET.getlist('genero')
+    urgente = request.GET.get('urgente')
+    vacantes = request.GET.get('vacantes')
+    sin_experiencia = request.GET.get('sin_experiencia')
+
+    if localidades_seleccionadas:
+        trabajos = trabajos.filter(localidad__id__in=localidades_seleccionadas)
+    if categorias_seleccionadas:
+        trabajos = trabajos.filter(categoria__id__in=categorias_seleccionadas)
+    if jornadas_seleccionadas:
+        trabajos = trabajos.filter(tipo_jornada__id__in=jornadas_seleccionadas)
+    if modalidades_seleccionadas:
+        trabajos = trabajos.filter(modalidad__id__in=modalidades_seleccionadas)
+    if generos_seleccionados:
+        trabajos = trabajos.filter(genero__id__in=generos_seleccionados)
+    if urgente:
+        trabajos = trabajos.filter(urgente=True)
+    if vacantes:
+        trabajos = trabajos.filter(cantidad__gt=1)
+    if sin_experiencia:
+        trabajos = trabajos.filter(experiencia=False)
+
+    # Calcular días publicados
     for trabajo in trabajos:
         dias = (ahora - trabajo.fecha).days
-
         if dias == 0:
             trabajo.dias_publicado = "Publicado hoy"
         elif dias == 1:
@@ -132,7 +159,21 @@ def listar_trabajos(request):
         else:
             trabajo.dias_publicado = f"Publicado hace {dias} días"
 
-    return render(request, 'listar_trabajos.html', {'trabajos': trabajos})
+    # Pasar opciones al template
+    localidades = Localidad.objects.all()
+    categorias = Categoria.objects.all()
+    jornadas = JornadaLaboral.objects.all()
+    modalidades = Modalidad.objects.all()
+    generos = Genero.objects.all()
+
+    return render(request, 'listar_trabajos.html', {
+        'trabajos': trabajos,
+        'localidades': localidades,
+        'categorias': categorias,
+        'jornadas': jornadas,
+        'modalidades': modalidades,
+        'generos': generos
+    })
 
 def detalle_trabajo(request, trabajo_id):
     trabajo = get_object_or_404(Trabajo, id=trabajo_id)

@@ -30,8 +30,117 @@
 {% endfor %}
 </div>
 
+<div class="text-center mt-4">
+    <a href="{% url 'inicio' %}" class="btn" style="background: #f1d301">Volver al inicio</a>
+</div>
 
-    <div class="text-center mt-4">
-        <a href="{% url 'inicio' %}" class="btn" style="background: #f1d301">Volver al inicio</a>
-    </div>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<style>
+    .filtro-container {
+        text-align: left;
+        max-height: 400px;
+        overflow-y: auto;
+        padding: 10px;
+    }
+
+    .filtro-titulo {
+        font-size: 18px;
+        font-weight: bold;
+        margin-top: 15px;
+        color: #333;
+    }
+
+    .filtro-label {
+        display: flex;
+        align-items: center;
+        font-size: 16px;
+        margin-bottom: 5px;
+    }
+
+    .filtro-label input {
+        margin-right: 8px;
+    }
+
+    .fixed-filter-btn {
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: #f1d301;
+        color: black;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+</style>
+
+<button class="fixed-filter-btn" onclick="mostrarFiltros()">Filtrar</button>
+
+<script>
+    function mostrarFiltros() {
+        Swal.fire({
+            title: 'Filtrar empleos',
+            html: `
+                <form id="filtro-form" method="GET" action="">
+                    <div class="filtro-container">
+                        <h5 class="filtro-titulo">Localidades</h5>
+                        {% for localidad in localidades %}
+                            <label class="filtro-label">
+                                <input type="checkbox" name="localidad" value="{{ localidad.id }}">
+                                {{ localidad.nombre }}
+                            </label>
+                        {% endfor %}
+
+                        <h5 class="filtro-titulo">Categorías</h5>
+                        {% for categoria in categorias %}
+                            <label class="filtro-label">
+                                <input type="checkbox" name="categoria" value="{{ categoria.id }}">
+                                {{ categoria.nombre }}
+                            </label>
+                        {% endfor %}
+
+                        <h5 class="filtro-titulo">Jornada laboral</h5>
+                        {% for jornada in jornadas %}
+                            <label class="filtro-label">
+                                <input type="checkbox" name="jornada" value="{{ jornada.id }}">
+                                {{ jornada.nombre }}
+                            </label>
+                        {% endfor %}
+
+                        <h5 class="filtro-titulo">Modalidad</h5>
+                        {% for modalidad in modalidades %}
+                            <label class="filtro-label">
+                                <input type="checkbox" name="modalidad" value="{{ modalidad.id }}">
+                                {{ modalidad.nombre }}
+                            </label>
+                        {% endfor %}
+
+                        <h5 class="filtro-titulo">Género</h5>
+                        {% for genero in generos %}
+                            <label class="filtro-label">
+                                <input type="checkbox" name="genero" value="{{ genero.id }}">
+                                {{ genero.nombre }}
+                            </label>
+                        {% endfor %}
+
+                        <h5 class="filtro-titulo">Otros</h5>
+                        <label class="filtro-label"><input type="checkbox" name="urgente" value="true"> Se precisa urgente</label>
+                        <label class="filtro-label"><input type="checkbox" name="vacantes" value="true"> Con más de una vacante</label>
+                        <label class="filtro-label"><input type="checkbox" name="sin_experiencia" value="true"> Sin experiencia</label>
+                    </div>
+                </form>
+            `,
+            confirmButtonText: 'Aplicar',
+            showCancelButton: true,
+            cancelButtonText: 'Cancelar',
+            preConfirm: () => {
+                document.getElementById("filtro-form").submit();
+            }
+        });
+    }
+</script>
+
 {% endblock %}
