@@ -4,31 +4,32 @@
 {% block title %}Empleos{% endblock %}
 
 {% block content %}
-<div class="container mt-4">
-{% for trabajo in trabajos %}
-    <div class="card p-3 shadow-sm mb-4">
-        <div class="d-flex align-items-center">
-            {% if trabajo.imagen %}
-                <img src="{{ trabajo.imagen.url }}" alt="{{ trabajo.titulo }}" class="me-3" style="width: 80px; height: 80px;">
-            {% endif %}
-            <div class="ms-3">
-                <h5 class="mb-1">{{ trabajo.titulo }}</h5>
-                <p class="text-muted mb-1">{{ trabajo.empresa }} | {{ trabajo.dias_publicado }}</p>
+<div id="trabajos-container" class="container mt-4">
+    {% for trabajo in trabajos %}
+        <div class="card p-3 shadow-sm mb-4">
+            <div class="d-flex align-items-center">
+                {% if trabajo.imagen %}
+                    <img src="{{ trabajo.imagen.url }}" alt="{{ trabajo.titulo }}" class="me-3" style="width: 80px; height: 80px;">
+                {% endif %}
+                <div class="ms-3">
+                    <h5 class="mb-1">{{ trabajo.titulo }}</h5>
+                    <p class="text-muted mb-1">{{ trabajo.empresa }} | {{ trabajo.dias_publicado }}</p>
+                </div>
+            </div>
+            <div class="mt-2">
+                {% for requisito in trabajo.requisitos.all %}
+                    <span class="badge bg-light text-dark">{{ requisito }}</span>
+                {% endfor %}
+                <span class="badge bg-light text-dark">{{ trabajo.tipo_jornada }}</span>
+            </div>
+            <p class="mt-3 truncado">{{ trabajo.descripcion }}</p>
+            <div class="text-center">
+                <a href="{% url 'detalle_trabajo' trabajo.id %}" class="btn btn-primary" style="background: #f1d301; color: black;">Ver</a>
             </div>
         </div>
-        <div class="mt-2">
-            {% for requisito in trabajo.requisitos.all %}
-                <span class="badge bg-light text-dark">{{ requisito }}</span>
-            {% endfor %}
-            <span class="badge bg-light text-dark">{{ trabajo.tipo_jornada }}</span>
-        </div>
-        <p class="mt-3 truncado">{{ trabajo.descripcion }}</p>
-        <div class="text-center">
-            <a href="{% url 'detalle_trabajo' trabajo.id %}" class="btn btn-primary" style="background: #f1d301; color: black;">Ver</a>
-        </div>
-    </div>
-{% endfor %}
+    {% endfor %}
 </div>
+
 
 <div class="text-center mt-4">
     <a href="{% url 'inicio' %}" class="btn" style="background: #f1d301">Volver al inicio</a>
@@ -80,16 +81,49 @@
 <button class="fixed-filter-btn" onclick="mostrarFiltros()">Filtrar</button>
 
 <script>
+    function aplicarFiltros() {
+        let formData = new FormData(document.getElementById("filtro-form"));
+        let params = new URLSearchParams(formData).toString();
+
+        fetch("/empleos/?" + params, {
+            headers: { "X-Requested-With": "XMLHttpRequest" }
+        })
+        .then(response => response.json())
+        .then(data => {
+            let trabajosContainer = document.getElementById("trabajos-container");
+            trabajosContainer.innerHTML = "";
+
+            data.trabajos.forEach(trabajo => {
+                let card = `
+                    <div class="card p-3 shadow-sm mb-4">
+                        <div class="d-flex align-items-center">
+                            ${trabajo.imagen ? `<img src="${trabajo.imagen}" class="me-3" style="width: 80px; height: 80px;">` : ""}
+                            <div class="ms-3">
+                                <h5 class="mb-1">${trabajo.titulo}</h5>
+                                <p class="text-muted mb-1">${trabajo.empresa} | ${trabajo.dias_publicado}</p>
+                            </div>
+                        </div>
+                        <p class="mt-3">${trabajo.descripcion}</p>
+                        <div class="text-center">
+                            <a href="/empleos/${trabajo.id}/" class="btn btn-primary" style="background: #f1d301; color: black;">Ver</a>
+                        </div>
+                    </div>
+                `;
+                trabajosContainer.innerHTML += card;
+            });
+        });
+    }
+
     function mostrarFiltros() {
         Swal.fire({
             title: 'Filtrar empleos',
             html: `
-                <form id="filtro-form" method="GET" action="">
+                <form id="filtro-form">
                     <div class="filtro-container">
                         <h5 class="filtro-titulo">Localidades</h5>
                         {% for localidad in localidades %}
                             <label class="filtro-label">
-                                <input type="checkbox" name="localidad" value="{{ localidad.id }}">
+                                <input type="checkbox" name="localidad" value="{{ localidad.id }}" onchange="aplicarFiltros()">
                                 {{ localidad.nombre }}
                             </label>
                         {% endfor %}
@@ -97,7 +131,7 @@
                         <h5 class="filtro-titulo">Categorías</h5>
                         {% for categoria in categorias %}
                             <label class="filtro-label">
-                                <input type="checkbox" name="categoria" value="{{ categoria.id }}">
+                                <input type="checkbox" name="categoria" value="{{ categoria.id }}" onchange="aplicarFiltros()">
                                 {{ categoria.nombre }}
                             </label>
                         {% endfor %}
@@ -105,7 +139,7 @@
                         <h5 class="filtro-titulo">Jornada laboral</h5>
                         {% for jornada in jornadas %}
                             <label class="filtro-label">
-                                <input type="checkbox" name="jornada" value="{{ jornada.id }}">
+                                <input type="checkbox" name="jornada" value="{{ jornada.id }}" onchange="aplicarFiltros()">
                                 {{ jornada.nombre }}
                             </label>
                         {% endfor %}
@@ -113,7 +147,7 @@
                         <h5 class="filtro-titulo">Modalidad</h5>
                         {% for modalidad in modalidades %}
                             <label class="filtro-label">
-                                <input type="checkbox" name="modalidad" value="{{ modalidad.id }}">
+                                <input type="checkbox" name="modalidad" value="{{ modalidad.id }}" onchange="aplicarFiltros()">
                                 {{ modalidad.nombre }}
                             </label>
                         {% endfor %}
@@ -121,26 +155,22 @@
                         <h5 class="filtro-titulo">Género</h5>
                         {% for genero in generos %}
                             <label class="filtro-label">
-                                <input type="checkbox" name="genero" value="{{ genero.id }}">
+                                <input type="checkbox" name="genero" value="{{ genero.id }}" onchange="aplicarFiltros()">
                                 {{ genero.nombre }}
                             </label>
                         {% endfor %}
 
                         <h5 class="filtro-titulo">Otros</h5>
-                        <label class="filtro-label"><input type="checkbox" name="urgente" value="true"> Se precisa urgente</label>
-                        <label class="filtro-label"><input type="checkbox" name="vacantes" value="true"> Con más de una vacante</label>
-                        <label class="filtro-label"><input type="checkbox" name="sin_experiencia" value="true"> Sin experiencia</label>
+                        <label class="filtro-label"><input type="checkbox" name="urgente" value="true" onchange="aplicarFiltros()"> Se precisa urgente</label>
+                        <label class="filtro-label"><input type="checkbox" name="vacantes" value="true" onchange="aplicarFiltros()"> Con más de una vacante</label>
+                        <label class="filtro-label"><input type="checkbox" name="sin_experiencia" value="true" onchange="aplicarFiltros()"> Sin experiencia</label>
                     </div>
                 </form>
             `,
-            confirmButtonText: 'Aplicar',
-            showCancelButton: true,
-            cancelButtonText: 'Cancelar',
-            preConfirm: () => {
-                document.getElementById("filtro-form").submit();
-            }
+            confirmButtonText: 'Cerrar'
         });
     }
 </script>
+
 
 {% endblock %}

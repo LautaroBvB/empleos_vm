@@ -122,7 +122,6 @@ def listar_trabajos(request):
     trabajos = Trabajo.objects.all().order_by('-fecha')
     ahora = timezone.now().date()
 
-    # Aplicar filtros si existen
     localidades_seleccionadas = request.GET.getlist('localidad')
     categorias_seleccionadas = request.GET.getlist('categoria')
     jornadas_seleccionadas = request.GET.getlist('jornada')
@@ -149,17 +148,25 @@ def listar_trabajos(request):
     if sin_experiencia:
         trabajos = trabajos.filter(experiencia=False)
 
-    # Calcular días publicados
     for trabajo in trabajos:
         dias = (ahora - trabajo.fecha).days
-        if dias == 0:
-            trabajo.dias_publicado = "Publicado hoy"
-        elif dias == 1:
-            trabajo.dias_publicado = "Publicado ayer"
-        else:
-            trabajo.dias_publicado = f"Publicado hace {dias} días"
+        trabajo.dias_publicado = "Publicado hoy" if dias == 0 else f"Publicado hace {dias} días"
 
-    # Pasar opciones al template
+    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+        trabajos_data = [
+            {
+                "id": trabajo.id,
+                "titulo": trabajo.titulo,
+                "empresa": trabajo.empresa,
+                "dias_publicado": trabajo.dias_publicado,
+                "imagen": trabajo.imagen.url if trabajo.imagen else None,
+                "tipo_jornada": trabajo.tipo_jornada.nombre,
+                "descripcion": trabajo.descripcion[:100] + "...",
+            }
+            for trabajo in trabajos
+        ]
+        return JsonResponse({"trabajos": trabajos_data})
+
     localidades = Localidad.objects.all()
     categorias = Categoria.objects.all()
     jornadas = JornadaLaboral.objects.all()
