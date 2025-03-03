@@ -4,35 +4,13 @@
 {% block title %}Empleos{% endblock %}
 
 {% block content %}
-<div id="trabajos-container" class="container mt-4">
-    {% for trabajo in trabajos %}
-        <div class="card p-3 shadow-sm mb-4">
-            <div class="d-flex align-items-center">
-                {% if trabajo.imagen %}
-                    <img src="{{ trabajo.imagen.url }}" alt="{{ trabajo.titulo }}" class="me-3" style="width: 80px; height: 80px;">
-                {% endif %}
-                <div class="ms-3">
-                    <h5 class="mb-1">{{ trabajo.titulo }}</h5>
-                    <p class="text-muted mb-1">{{ trabajo.empresa }} | {{ trabajo.dias_publicado }}</p>
-                </div>
-            </div>
-            <div class="mt-2">
-                {% for requisito in trabajo.requisitos.all %}
-                    <span class="badge bg-light text-dark">{{ requisito }}</span>
-                {% endfor %}
-                <span class="badge bg-light text-dark">{{ trabajo.tipo_jornada }}</span>
-            </div>
-            <p class="mt-3 truncado">{{ trabajo.descripcion }}</p>
-            <div class="text-center">
-                <a href="{% url 'detalle_trabajo' trabajo.id %}" class="btn btn-primary" style="background: #f1d301; color: black;">Ver</a>
-            </div>
-        </div>
-    {% endfor %}
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
 <style>
+  .trabajo-patrocinado {
+      border: 2px solid #f1d301;
+      background-color: #fff5b0;
+      padding: 10px;
+  }
+
   .filtro-container {
       text-align: left;
       max-height: 400px;
@@ -83,6 +61,36 @@
 
 </style>
 
+<div id="trabajos-container" class="container mt-4">
+    {% for trabajo in trabajos|dictsortreversed:"destacado" %}
+        <a href="{% url 'detalle_trabajo' trabajo.id %}" class="text-decoration-none text-dark">
+            <div class="card p-3 shadow-sm mb-4 position-relative">
+                {% if trabajo.destacado %}
+                    <span class="badge bg-warning text-dark position-absolute top-0 start-50 translate-middle">Destacado</span>
+                {% endif %}
+                <div class="d-flex align-items-center">
+                    {% if trabajo.imagen %}
+                        <img src="{{ trabajo.imagen.url }}" alt="{{ trabajo.titulo }}" class="me-3" style="width: 80px; height: 80px;">
+                    {% endif %}
+                    <div class="ms-3">
+                        <h5 class="mb-1">{{ trabajo.titulo }}</h5>
+                        <p class="text-muted mb-1">{{ trabajo.empresa }} | {{ trabajo.dias_publicado }}</p>
+                    </div>
+                </div>
+                <div class="mt-2">
+                    {% for requisito in trabajo.requisitos.all %}
+                        <span class="badge bg-light text-dark">{{ requisito }}</span>
+                    {% endfor %}
+                    <span class="badge bg-light text-dark">{{ trabajo.tipo_jornada }}</span>
+                </div>
+                <p class="mt-3 truncado">{{ trabajo.descripcion }}</p>
+            </div>
+        </a>
+    {% endfor %}
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <div class="fixed-buttons">
     <button class="fixed-filter-btn" onclick="mostrarFiltros()">
         <i class="fas fa-filter"></i> Filtrar
@@ -102,28 +110,31 @@
         })
         .then(response => response.json())
         .then(data => {
-            let trabajosContainer = document.getElementById("trabajos-container");
-            trabajosContainer.innerHTML = "";
+    let trabajosContainer = document.getElementById("trabajos-container");
+    trabajosContainer.innerHTML = "";
 
-            data.trabajos.forEach(trabajo => {
-                let card = `
-                    <div class="card p-3 shadow-sm mb-4">
-                        <div class="d-flex align-items-center">
-                            ${trabajo.imagen ? `<img src="${trabajo.imagen}" class="me-3" style="width: 80px; height: 80px;">` : ""}
-                            <div class="ms-3">
-                                <h5 class="mb-1">${trabajo.titulo}</h5>
-                                <p class="text-muted mb-1">${trabajo.empresa} | ${trabajo.dias_publicado}</p>
-                            </div>
-                        </div>
-                        <p class="mt-3">${trabajo.descripcion}</p>
-                        <div class="text-center">
-                            <a href="/empleos/${trabajo.id}/" class="btn btn-primary" style="background: #f1d301; color: black;">Ver</a>
-                        </div>
+    data.trabajos.forEach(trabajo => {
+        let destacadoBadge = trabajo.destacado ? `<span class="badge bg-warning text-dark position-absolute top-0 start-50 translate-middle">Destacado</span>` : "";
+        let imagenTrabajo = trabajo.imagen ? `<img src="${trabajo.imagen}" class="me-3" style="width: 80px; height: 80px;">` : "";
+        let card = `
+        <a href="/empleos/${trabajo.id}/" class="text-decoration-none">
+            <div class="card p-3 shadow-sm mb-4 position-relative">
+                ${destacadoBadge}
+                <div class="d-flex align-items-center">
+                    ${imagenTrabajo}
+                    <div class="ms-3">
+                        <h5 class="mb-1">${trabajo.titulo}</h5>
+                        <p class="text-muted mb-1">${trabajo.empresa} | ${trabajo.dias_publicado}</p>
                     </div>
-                `;
-                trabajosContainer.innerHTML += card;
-            });
-        });
+                </div>
+                <p class="mt-3">${trabajo.descripcion}</p>
+            </div>
+        </a>
+        `;
+        trabajosContainer.innerHTML += card;
+    });
+});
+
     }
 
     function mostrarFiltros() {
@@ -183,6 +194,8 @@
         });
     }
 </script>
+
+
 
 
 {% endblock %}

@@ -122,6 +122,7 @@ class Trabajo(models.Model):
     requisitos = models.ManyToManyField(Requisito)
     imagen = models.ImageField(upload_to='imagenes/trabajos_imagenes/', null=True, blank=True)
     fecha = models.DateField(default=timezone.now)
+    destacado = models.BooleanField(default=False)
     
     def __str__(self):
         return f"{self.titulo} - {self.categoria}"

@@ -119,7 +119,7 @@ def listar_trabajos_por_localidad(request, localidad_id):
 
 
 def listar_trabajos(request):
-    trabajos = Trabajo.objects.all().order_by('-fecha')
+    trabajos = Trabajo.objects.all().order_by('-destacado', '-fecha')
     ahora = timezone.now().date()
 
     localidades_seleccionadas = request.GET.getlist('localidad')
@@ -162,10 +162,12 @@ def listar_trabajos(request):
                 "imagen": trabajo.imagen.url if trabajo.imagen else None,
                 "tipo_jornada": trabajo.tipo_jornada.nombre,
                 "descripcion": trabajo.descripcion[:100] + "...",
+                "destacado": trabajo.destacado,  # <-- Agregado aquí
             }
             for trabajo in trabajos
         ]
         return JsonResponse({"trabajos": trabajos_data})
+
 
     localidades = Localidad.objects.all()
     categorias = Categoria.objects.all()
@@ -216,4 +218,3 @@ def detalle_trabajo(request, trabajo_id):
         'trabajos_similares': trabajos_similares,
         'dias_publicado': dias_publicado_texto
     })
-
