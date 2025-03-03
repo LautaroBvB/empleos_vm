@@ -1,2 +1,5 @@
 T A R E A S
 * En publicar_trabajo.html se debería de enviar una imagen por defecto, ya que algunos trabajos podrían ser anonimos. También debería de estar la opcion "trabajo anónimo" o algo por el estilo
+
+
+Cuando el curriculum adjuntado del postulante este mal, el administrador podrá eliminarlo en la base de datos y en base a eso, en el template se podrá renderizar la opción de cargar nuevamente el curriculum, si eso pasa el administrador debe ser notificado mediante una señal

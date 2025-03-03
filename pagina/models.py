@@ -23,7 +23,8 @@ class Postulante(models.Model):
         ('aprobado', 'Aprobado'),
         ('no_aprobado', 'No aprobado'),
     ]
-
+    
+    suscrito = models.BooleanField(default=False)
     nombre = models.CharField(max_length=100)
     apellido = models.CharField(max_length=100)
     dni = models.CharField(
