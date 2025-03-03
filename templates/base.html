@@ -23,22 +23,31 @@
 
 </head>
 <body>
-    <header class="navbar d-flex align-items-center">
-        <button class="btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebar">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <img src="{% static 'img/logo2.png' %}" alt="Logo" class="mx-auto">
-    </header>
+  <header class="navbar d-flex align-items-center justify-content-between px-3">
+  <!-- Botón de Offcanvas -->
+  <button class="btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebar">
+      <span class="navbar-toggler-icon"></span>
+  </button>
 
-    <nav class="navbar navbar-light">
-        <div class="container-fluid">
-            <div class="menu-empleo">
-                <a href="{% url 'publicar_trabajo' %}" class="me-3 text-decoration-none text-dark">Publica Gratis</a>
-                <a href="{% url 'subir_cv' %}" class="me-3 text-decoration-none text-dark">Subí tu CV</a>
-                <a href="{% url 'listar_trabajos' %}" class="me-3 text-decoration-none text-dark">Busca Empleo</a>
-            </div>
-        </div>
-    </nav>
+  <!-- Logo -->
+  <img src="{% static 'img/logo2.png' %}" alt="Logo" class="mx-auto">
+
+  <!-- Botón Instagram -->
+  <a href="https://www.instagram.com/busco.trabajo.vm/" target="_blank" class="btn-instagram">
+      <i class="fab fa-instagram" style="font-size: 2rem !important;"></i> <!-- Puedes usar el ícono de Instagram -->
+  </a>
+</header>
+
+<nav class="navbar navbar-light">
+  <div class="container-fluid">
+      <div class="menu-empleo">
+          <a href="{% url 'publicar_trabajo' %}" class="me-3 text-decoration-none text-dark">Publica Gratis</a>
+          <a href="{% url 'subir_cv' %}" class="me-3 text-decoration-none text-dark">Subí tu CV</a>
+          <a href="{% url 'listar_trabajos' %}" class="me-3 text-decoration-none text-dark">Busca Empleo</a>
+      </div>
+  </div>
+</nav>
+
 
     <div class="offcanvas offcanvas-start" id="sidebar">
         <div class="offcanvas-header">
