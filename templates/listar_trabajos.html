@@ -59,6 +59,32 @@
       text-decoration: none;
   }
 
+  a {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.3s ease-in-out;
+  }
+
+  a:hover {
+    transform: translateX(10px);
+  }
+
+  .btn-ver-mas {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: #333;
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out;
+  }
+
+  a:hover .btn-ver-mas {
+    transform: translateX(5px);
+    color: #000;
+  }
+
+
 </style>
 
 <div id="trabajos-container" class="container mt-4">
@@ -84,6 +110,11 @@
                     <span class="badge bg-light text-dark">{{ trabajo.tipo_jornada }}</span>
                 </div>
                 <p class="mt-3 truncado">{{ trabajo.descripcion }}</p>
+                <div class="text-center mt-3">
+                    <button class="btn-ver-mas">
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
             </div>
         </a>
     {% endfor %}
@@ -101,41 +132,54 @@
 </div>
 
 <script>
-    function aplicarFiltros() {
-        let formData = new FormData(document.getElementById("filtro-form"));
-        let params = new URLSearchParams(formData).toString();
+  function aplicarFiltros() {
+  let formData = new FormData(document.getElementById("filtro-form"));
+  let params = new URLSearchParams(formData).toString();
 
-        fetch("/empleos/?" + params, {
-            headers: { "X-Requested-With": "XMLHttpRequest" }
-        })
-        .then(response => response.json())
-        .then(data => {
-    let trabajosContainer = document.getElementById("trabajos-container");
-    trabajosContainer.innerHTML = "";
+  fetch("/empleos/?" + params, {
+      headers: { "X-Requested-With": "XMLHttpRequest" }
+  })
+  .then(response => response.json())
+  .then(data => {
+      let trabajosContainer = document.getElementById("trabajos-container");
+      trabajosContainer.innerHTML = "";
 
-    data.trabajos.forEach(trabajo => {
-        let destacadoBadge = trabajo.destacado ? `<span class="badge bg-warning text-dark position-absolute top-0 start-50 translate-middle">Destacado</span>` : "";
-        let imagenTrabajo = trabajo.imagen ? `<img src="${trabajo.imagen}" class="me-3" style="width: 80px; height: 80px;">` : "";
-        let card = `
-        <a href="/empleos/${trabajo.id}/" class="text-decoration-none">
-            <div class="card p-3 shadow-sm mb-4 position-relative">
-                ${destacadoBadge}
-                <div class="d-flex align-items-center">
-                    ${imagenTrabajo}
-                    <div class="ms-3">
-                        <h5 class="mb-1">${trabajo.titulo}</h5>
-                        <p class="text-muted mb-1">${trabajo.empresa} | ${trabajo.dias_publicado}</p>
-                    </div>
-                </div>
-                <p class="mt-3">${trabajo.descripcion}</p>
-            </div>
-        </a>
-        `;
-        trabajosContainer.innerHTML += card;
-    });
-});
+      if (data.trabajos.length === 0) {
+          trabajosContainer.innerHTML = `
+              <div class="alert alert-warning text-center mt-4">
+                  <i class="fas fa-exclamation-circle"></i> No hay empleos disponibles en este momento.
+                  <br> Intenta cambiar los filtros o vuelve más tarde.
+              </div>
+          `;
+          return;
+      }
 
-    }
+      data.trabajos.forEach(trabajo => {
+          let card = `
+          <a href="/empleos/${trabajo.id}/" class="text-decoration-none">
+              <div class="card p-3 shadow-sm mb-4 position-relative">
+                  ${trabajo.destacado ? `<span class="badge bg-warning text-dark position-absolute top-0 start-50 translate-middle">Destacado</span>` : ""}
+                  <div class="d-flex align-items-center">
+                      ${trabajo.imagen ? `<img src="${trabajo.imagen}" class="me-3" style="width: 80px; height: 80px;">` : ""}
+                      <div class="ms-3">
+                          <h5 class="mb-1">${trabajo.titulo}</h5>
+                          <p class="text-muted mb-1">${trabajo.empresa} | ${trabajo.dias_publicado}</p>
+                      </div>
+                  </div>
+                  <p class="mt-3">${trabajo.descripcion}</p>
+                  <div class="text-center mt-3">
+                      <button class="btn-ver-mas">
+                          <i class="fas fa-arrow-right"></i>
+                      </button>
+                  </div>
+              </div>
+          </a>
+          `;
+          trabajosContainer.innerHTML += card;
+      });
+  });
+}
+
 
     function mostrarFiltros() {
         Swal.fire({
@@ -194,8 +238,4 @@
         });
     }
 </script>
-
-
-
-
 {% endblock %}
