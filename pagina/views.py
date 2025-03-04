@@ -50,7 +50,7 @@ def inicio(request):
 
 def publicar_trabajo(request):
     if request.method == "POST":
-        form = TrabajoForm(request.POST)
+        form = TrabajoForm(request.POST, request.FILES)  # Agregar request.FILES
         if form.is_valid():
             form.save()
             return redirect("trabajo_exitoso")

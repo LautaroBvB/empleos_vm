@@ -8,97 +8,108 @@
 {% endblock %}
 
 {% block content %}
-    <div class="container-fluid mt-4 px-3">
-        <div class="card p-4 shadow-sm mb-4 mx-auto">
-            <div class="d-flex align-items-center">
-                {% if trabajo.imagen %}
-                    <img src="{{ trabajo.imagen.url }}" alt="{{ trabajo.titulo }}" class="me-3 rounded img-fluid" style="max-width: 80px;">
-                {% endif %}
-                <div>
-                    <h3 class="mb-1">{{ trabajo.titulo }}</h3>
-                    <p class="text-muted mb-1">{{ trabajo.empresa }} | {{ dias_publicado }}</p>
-                </div>
+<div class="container-fluid mt-4 px-3">
+    <div class="card p-4 shadow-sm mb-4 mx-auto">
+        <div class="d-flex align-items-center">
+          {% if trabajo.imagen and trabajo.imagen.name %}
+              <img src="{{ trabajo.imagen.url }}" alt="{{ trabajo.titulo }}" class="me-3 rounded img-fluid" style="max-width: 80px;">
+          {% else %}
+              <img src="{% static 'img/default.png' %}" alt="Imagen por defecto" class="me-3 rounded img-fluid" style="max-width: 80px;">
+          {% endif %}
+
+            <div>
+                <h3 class="mb-1">{{ trabajo.titulo }}</h3>
+                <p class="text-muted mb-1">
+                    {% if trabajo.anonimo %}
+                        Importante empresa selecciona | {{ dias_publicado }}
+                    {% else %}
+                        {{ trabajo.empresa }} | {{ dias_publicado }}
+                    {% endif %}
+                </p>
             </div>
+        </div>
 
-            <div class="mt-2">
-                {% for requisito in trabajo.requisitos.all %}
-                    <span class="badge bg-light text-dark">{{ requisito }}</span>
-                {% endfor %}
-                <span class="badge bg-light text-dark" style="margin-bottom: 3vh;">{{ trabajo.tipo_jornada }}</span>
-            </div>
+        <div class="mt-2">
+            {% for requisito in trabajo.requisitos.all %}
+                <span class="badge bg-light text-dark">{{ requisito }}</span>
+            {% endfor %}
+            <span class="badge bg-light text-dark" style="margin-bottom: 3vh;">{{ trabajo.tipo_jornada }}</span>
+        </div>
 
-            <p class="mt-3"><strong>Descripción del puesto:</strong></p>
-            <p class="mt-3">{{ trabajo.descripcion }}</p>
+        <p class="mt-3"><strong>Descripción del puesto:</strong></p>
+        <p class="mt-3">{{ trabajo.descripcion }}</p>
 
+        {% if not trabajo.anonimo %}
             <p class="mt-3"><strong>Acerca de la empresa:</strong></p>
             <p>{{ trabajo.acerca_de }}</p>
+        {% endif %}
 
-            <div class="text-center mt-4">
-                <a href="#" class="btn btn-primary w-100">Postularme</a>
+        <div class="text-center mt-4">
+            <a href="#" class="btn btn-primary w-100">Postularme</a>
+        </div>
+
+        <div class="mt-5 p-4 bg-light rounded shadow-sm text-center">
+            <h5 class="mb-3">Comparte en tus redes sociales</h5>
+            <div class="d-flex justify-content-center gap-2">
+                <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}" target="_blank" class="social-icon bg-primary text-white p-2 rounded">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+                <a href="https://twitter.com/intent/tweet?url={{ request.build_absolute_uri }}" target="_blank" class="social-icon bg-dark text-white p-2 rounded">
+                    <i class="fab fa-x-twitter"></i>
+                </a>
+                <a href="https://api.whatsapp.com/send?text={{ request.build_absolute_uri }}" target="_blank" class="social-icon bg-success text-white p-2 rounded">
+                    <i class="fab fa-whatsapp"></i>
+                </a>
             </div>
+        </div>
 
-            <div class="mt-5 p-4 bg-light rounded shadow-sm text-center">
-                <h5 class="mb-3">Comparte en tus redes sociales</h5>
-                <div class="d-flex justify-content-center gap-2">
-                    <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}" target="_blank" class="social-icon bg-primary text-white p-2 rounded">
-                        <i class="fab fa-facebook-f"></i>
+        <div class="mt-4">
+            <h5>Búsquedas relacionadas</h5>
+            <div class="row g-2">
+                <div class="col-12 col-md-6">
+                    <a href="{% url 'listar_trabajos_por_categoria' trabajo.categoria.id %}" class="related-box d-block p-3 bg-light rounded shadow-sm">
+                        <h6 class="mb-1">Categoría: {{ trabajo.categoria }}</h6>
+                        <p class="mb-0">{{ trabajos_categoria|length }} empleos disponibles</p>
                     </a>
-                    <a href="https://twitter.com/intent/tweet?url={{ request.build_absolute_uri }}" target="_blank" class="social-icon bg-dark text-white p-2 rounded">
-                        <i class="fab fa-x-twitter"></i>
-                    </a>
-                    <a href="https://api.whatsapp.com/send?text={{ request.build_absolute_uri }}" target="_blank" class="social-icon bg-success text-white p-2 rounded">
-                        <i class="fab fa-whatsapp"></i>
+                </div>
+                <div class="col-12 col-md-6">
+                    <a href="{% url 'listar_trabajos_por_localidad' trabajo.localidad.id %}" class="related-box d-block p-3 bg-light rounded shadow-sm">
+                        <h6 class="mb-1">Localidad: {{ trabajo.localidad }}</h6>
+                        <p class="mb-0">{{ trabajos_localidad|length }} empleos disponibles</p>
                     </a>
                 </div>
             </div>
+        </div>
 
-            <div class="mt-4">
-                <h5>Búsquedas relacionadas</h5>
-                <div class="row g-2">
-                    <div class="col-12 col-md-6">
-                        <a href="{% url 'listar_trabajos_por_categoria' trabajo.categoria.id %}" class="related-box d-block p-3 bg-light rounded shadow-sm">
-                            <h6 class="mb-1">Categoría: {{ trabajo.categoria }}</h6>
-                            <p class="mb-0">{{ trabajos_categoria|length }} empleos disponibles</p>
-                        </a>
-                    </div>
-                    <div class="col-12 col-md-6">
-                        <a href="{% url 'listar_trabajos_por_localidad' trabajo.localidad.id %}" class="related-box d-block p-3 bg-light rounded shadow-sm">
-                            <h6 class="mb-1">Localidad: {{ trabajo.localidad }}</h6>
-                            <p class="mb-0">{{ trabajos_localidad|length }} empleos disponibles</p>
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="mt-4">
-    <h5 class="mb-3">Ofertas de trabajo similares</h5>
-    <div class="d-flex flex-column gap-3">
-        {% for trabajo_similar in trabajos_similares %}
-            <a href="{% url 'detalle_trabajo' trabajo_similar.id %}" class="text-decoration-none">
-                <div class="card p-3 shadow-sm w-100" style="max-width: 100%;">
-                    <div class="d-flex">
-                        {% if trabajo_similar.imagen %}
-                            <img src="{{ trabajo_similar.imagen.url }}" alt="{{ trabajo_similar.titulo }}" class="me-3 rounded flex-shrink-0" style="width: 60px; height: 60px; object-fit: cover;">
-                        {% endif %}
-                        <div class="d-flex flex-column justify-content-center w-100">
-                            <h6 class="mb-1 text-primary">{{ trabajo_similar.titulo }}</h6>
-                            <p class="text-muted mb-1">{{ trabajo_similar.dias_publicado }}</p>
-                            <p class="text-muted">{{ trabajo_similar.descripcion|truncatechars:100 }}</p>
+        <div class="mt-4">
+            <h5 class="mb-3">Ofertas de trabajo similares</h5>
+            <div class="d-flex flex-column gap-3">
+                {% for trabajo_similar in trabajos_similares %}
+                    <a href="{% url 'detalle_trabajo' trabajo_similar.id %}" class="text-decoration-none">
+                        <div class="card p-3 shadow-sm w-100" style="max-width: 100%;">
+                            <div class="d-flex">
+                                {% if trabajo_similar.imagen %}
+                                    <img src="{{ trabajo_similar.imagen.url }}" alt="{{ trabajo_similar.titulo }}" class="me-3 rounded flex-shrink-0" style="width: 60px; height: 60px; object-fit: cover;">
+                                {% endif %}
+                                <div class="d-flex flex-column justify-content-center w-100">
+                                    <h6 class="mb-1 text-primary">{{ trabajo_similar.titulo }}</h6>
+                                    <p class="text-muted mb-1">{{ trabajo_similar.dias_publicado }}</p>
+                                    <p class="text-muted">{{ trabajo_similar.descripcion|truncatechars:100 }}</p>
+                                </div>
+                                <span class="ms-auto text-decoration-none text-primary fs-5">&rsaquo;</span>
+                            </div>
                         </div>
-                        <span class="ms-auto text-decoration-none text-primary fs-5">&rsaquo;</span>
-                    </div>
-                </div>
-            </a>
-        {% endfor %}
+                    </a>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="text-center mt-4">
+            <a href="{% url 'listar_trabajos' %}" class="btn btn-secondary w-100">Volver a la lista</a>
+        </div>
     </div>
 </div>
 
-
-            <div class="text-center mt-4">
-                <a href="{% url 'listar_trabajos' %}" class="btn btn-secondary w-100">Volver a la lista</a>
-            </div>
-        </div>
-    </div>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 {% endblock %}

@@ -104,6 +104,7 @@ class Requisito(models.Model):
 
 
 class Trabajo(models.Model):
+    anonimo = models.BooleanField(default=False)
     titulo = models.CharField(max_length=200)
     empresa = models.CharField(max_length=200)
     categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE)

@@ -13,7 +13,7 @@ class TrabajoForm(forms.ModelForm):
             'titulo', 'empresa', 'categoria', 'cantidad', 'localidad', 
             'tipo_jornada', 'modalidad', 'genero', 'descripcion', 
             'experiencia', 'acerca_de', 'rubro', 'direccion', 'celular', 
-            'urgente', 'requisitos', 'imagen'
+            'urgente', 'requisitos', 'imagen', 'anonimo'
         ]
         
         widgets = {
@@ -34,6 +34,8 @@ class TrabajoForm(forms.ModelForm):
             'urgente': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
             'requisitos': Select2MultipleWidget(attrs={'class': 'form-control', 'rows': 3}),
             'imagen': forms.FileInput(attrs={'class': 'form-control'}),
+            'anonimo': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+
         }
         
 

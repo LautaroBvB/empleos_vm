@@ -13,6 +13,13 @@
                 <form method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
                     {% csrf_token %}
                     <fieldset class="section bordered">
+                        <legend class="centered">Opciones de Publicación</legend>
+                        <div class="grid-container">
+                            <label for="id_anonimo">Publicar como oferta anónima (la empresa no será visible)</label>
+                            {{ form.anonimo }}
+                        </div>
+                    </fieldset>
+                    <fieldset class="section bordered">
                         <legend class="centered">Información General</legend>
                         <div class="grid-container">
                             <label for="id_titulo">Título</label> {{ form.titulo }}
@@ -57,6 +64,15 @@
                             {{ form.requisitos }}
                         </div>
                     </fieldset>
+                    
+                    <fieldset class="section bordered">
+                        <legend class="centered">Imagen del Trabajo</legend>
+                        <div class="grid-container">
+                            <label for="id_imagen">Seleccionar Imagen</label>
+                            {{ form.imagen }}
+                        </div>
+                    </fieldset>
+
 
                     <button type="submit" class="submit-button">Enviar</button>
                 </form>
