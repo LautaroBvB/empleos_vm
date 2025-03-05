@@ -81,9 +81,12 @@
                 <a href="#" id="forgot-password" class="text-decoration-none">¿Olvidaste tu contraseña?</a>
             </div>
             <hr>
-            <button type="button" class="btn-google">
-                <i class="bi bi-google"></i> Ingresar con Google
-            </button>
+            <a href="{% url 'social:begin' 'google-oauth2' %}" style="text-decoration: none;">
+                <button type="button" class="btn-google">
+                    <i class="bi bi-google"></i> Ingresar con Google
+                </button>
+            </a>
+
             <div class="text-center mt-3">
                 ¿No tienes cuenta? <a href="#" class="text-decoration-none">Regístrate</a>
             </div>
