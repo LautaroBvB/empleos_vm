@@ -21,7 +21,11 @@
     <!-- Estilos personalizados -->
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
 </head>
+
 <body>
   <header class="navbar d-flex align-items-center justify-content-between px-3">
   <!-- Botón de Offcanvas -->
@@ -58,6 +62,11 @@
         </div>
         <div class="offcanvas-body">
             <ul>
+                <li>
+                  <a href="#" class="login" onclick="mostrarLogin()">
+                      <img src="{% static 'icon/login.png' %}" alt="Ingresar"> Ingresar
+                  </a>
+                </li>
                 <li><a href="{% url 'listar_trabajos' %}"><img src="{% static 'icon/buscar-empleo.png' %}" alt="Buscar Empleo"> Busca Empleo</a></li>
                 <li><a href="{% url 'verificar_postulacion' %}"><img src="{% static 'icon/mi-cv.png' %}" alt="Mi CV"> Mi CV - Estado</a></li>
                 <li><a href="{% url 'preguntas_frecuentes' %}"><img src="{% static 'icon/preguntas-frecuentes.png' %}" alt="Preguntas Frecuentes"> Preguntas Frecuentes</a></li>
@@ -81,6 +90,128 @@
             });
         });
     </script>
+    <style media="screen">
+    .login {
+  background: #373435;
+  color: #998fb6;
+  padding: 10px;
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+.login img {
+  margin-right: 5px;
+}
+
+.login:hover {
+  background: #836bbc;
+  color: #fffaf0;
+}
+
+
+
+
+    </style>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script type="text/javascript">
+    function mostrarLogin() {
+  Swal.fire({
+      title: '<strong>INGRESAR</strong>',
+      html: `
+          <p><b>En 2 clics</b> podrás registrarte e ingresar usando la autenticación vía <b>Gmail</b>.</p>
+          <p>También podrás registrarte usando cuenta de email y contraseña.</p>
+          <div class="btn-container">
+              <button class="btn-google">
+                  <i class="bi bi-google"></i> Clic aquí para utilizar tu cuenta de Gmail para ingresar
+              </button>
+              <button class="btn-email" onclick="window.location.href='{% url "login" %}'">
+                  <i class="bi bi-envelope"></i> Utilizar e-mail (usuario) y contraseña
+                  <i class="bi bi-chevron-right"></i>
+              </button>
+          </div>
+      `,
+      showConfirmButton: false,
+      showCloseButton: true,  // Activa la "X" de cierre
+      customClass: {
+          popup: 'custom-popup',
+          closeButton: 'custom-close'
+      }
+  });
+}
+
+// Estilos personalizados para los botones y la "X"
+const estilo = document.createElement('style');
+estilo.innerHTML = `
+  .swal2-popup.custom-popup {
+      border-radius: 12px;
+      border: 2px solid #a993ff;
+      padding: 20px;
+      width: 400px;
+      position: relative;
+  }
+  .swal2-close.custom-close {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      font-size: 20px;
+      color: #a993ff;
+      transition: color 0.3s;
+  }
+  .swal2-close.custom-close:hover {
+      color: #7d5fff;
+  }
+  .btn-container {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 15px;
+  }
+  .btn-google {
+      background-color: #db4437;
+      color: white;
+      font-weight: bold;
+      border: none;
+      padding: 12px;
+      width: 100%;
+      font-size: 14px;
+      cursor: pointer;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      transition: background 0.3s;
+  }
+  .btn-google:hover {
+      background-color: #c1351d;
+  }
+  .btn-email {
+      background-color: white;
+      color: black;
+      font-weight: bold;
+      border: 2px solid #a993ff;
+      padding: 12px;
+      width: 100%;
+      font-size: 14px;
+      cursor: pointer;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: background 0.3s, color 0.3s;
+  }
+  .btn-email:hover {
+      background-color: #a993ff;
+      color: white;
+  }
+  .bi-google, .bi-envelope {
+      font-size: 18px;
+  }
+`;
+document.head.appendChild(estilo);
+    </script>
+
 </body>
 </html>

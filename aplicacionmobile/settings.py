@@ -14,6 +14,10 @@ EMAIL_HOST_USER = 'lautarozarate826@gmail.com'
 EMAIL_HOST_PASSWORD = 'oobx dhov rwjh lfzv'
 EMAIL_USE_TLS = True
 
+LOGIN_REDIRECT_URL = "/"  # Página a la que se redirige después del login
+LOGOUT_REDIRECT_URL = "/login/"  # Página después del logout
+LOGIN_URL = "/login/"
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent

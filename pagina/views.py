@@ -6,7 +6,27 @@ from django.shortcuts import redirect, get_object_or_404
 from django.utils import timezone
 from datetime import date
 from django.contrib.auth.hashers import check_password
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 
+
+def login_view(request):
+    if request.method == "POST":
+        username = request.POST["username"]
+        password = request.POST["password"]
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect("home")  # Redirige a la página de inicio
+        else:
+            return render(request, "login.html", {"error": "Usuario o contraseña incorrectos"})
+    return render(request, "login.html")
+
+def logout_view(request):
+    logout(request)
+    return redirect("login")  # Redirige a la página de login
+
+@login_required
 def preguntas_frecuentes(request):
     return render(request, 'preguntas_frecuentes.html')
 
